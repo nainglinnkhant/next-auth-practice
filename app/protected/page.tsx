@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth'
 
 import SignOutButton from '@/components/SignOutButton'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/auth'
 
 const Protected = async () => {
   const session = await getServerSession(authOptions)
