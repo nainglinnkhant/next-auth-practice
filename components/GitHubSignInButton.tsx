@@ -10,9 +10,10 @@ import { GitHubIcon } from '@/components/Icons'
 const GitHubSignInButton = () => {
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleClick = () => {
+  const handleClick = async () => {
     setIsLoading(true)
-    signIn('github')
+    await signIn('github')
+    setIsLoading(false)
   }
 
   return (
