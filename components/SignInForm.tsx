@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
+import { Loader2 } from 'lucide-react'
 
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -13,11 +14,14 @@ const SignInForm = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const { toast } = useToast()
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async e => {
     e.preventDefault()
+
+    setIsLoading(true)
 
     const res = await signIn('credentials', {
       email,
@@ -26,12 +30,14 @@ const SignInForm = () => {
     })
 
     if (res?.error) {
+      setIsLoading(false)
       return toast({
         title: 'Failed to sign in!',
         description: res?.error,
       })
     }
 
+    setIsLoading(false)
     router.push('/protected')
   }
 
@@ -53,7 +59,10 @@ const SignInForm = () => {
         onChange={e => setPassword(e.target.value)}
       />
 
-      <Button className='w-full'>Sign In</Button>
+      <Button disabled={isLoading} className='relative w-full'>
+        Sign In
+        {isLoading && <Loader2 className='absolute right-3 mr-2 h-4 w-4 animate-spin' />}
+      </Button>
     </form>
   )
 }
