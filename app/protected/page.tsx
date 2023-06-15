@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 
 import SignOutButton from '@/components/SignOutButton'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/Avatar'
 import { authOptions } from '@/lib/auth'
 import { generateUsernameInitials } from '@/lib/utils'
 
