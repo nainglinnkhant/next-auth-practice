@@ -10,10 +10,9 @@ import { GoogleIcon } from '@/components/Icons'
 const GoogleSignInButton = () => {
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleClick = async () => {
+  const handleClick = () => {
     setIsLoading(true)
-    await signIn('google')
-    setIsLoading(false)
+    signIn('google')
   }
 
   return (
