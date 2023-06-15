@@ -7,7 +7,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Next Auth Practise',
+  title: 'Next Auth Practice',
   description: 'A small app which is intended to play around with Next Auth',
 }
 

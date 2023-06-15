@@ -37,7 +37,6 @@ const SignInForm = () => {
       })
     }
 
-    setIsLoading(false)
     router.push('/protected')
   }
 
