@@ -1,16 +1,33 @@
+import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth'
 
 import SignOutButton from '@/components/SignOutButton'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { authOptions } from '@/lib/auth'
+import { generateUsernameInitials } from '@/lib/utils'
 
 const Protected = async () => {
   const session = await getServerSession(authOptions)
 
+  if (!session?.user) return redirect('/')
+
+  const { name, email, image } = session.user
+
   return (
     <div>
-      <p className='mb-4'>This is the protected content.</p>
+      <div className='mb-6 flex items-center space-x-4'>
+        <Avatar>
+          <AvatarImage src={image || ''} alt='Avatar' />
 
-      <pre className='mb-8 text-sm'>{JSON.stringify(session?.user, null, 2)}</pre>
+          <AvatarFallback>{generateUsernameInitials(name || email || '')}</AvatarFallback>
+        </Avatar>
+
+        <div className='flex flex-col space-y-1'>
+          {name && <p className='text-sm'>{name}</p>}
+
+          {email && <p className='text-sm text-muted-foreground'>{email}</p>}
+        </div>
+      </div>
 
       <SignOutButton />
     </div>
