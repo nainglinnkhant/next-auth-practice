@@ -2,6 +2,9 @@ import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
 import GitHubProvider from 'next-auth/providers/github'
+import { compare } from 'bcrypt'
+
+import { db } from '@/lib/db'
 
 interface Credentials {
   email: string
@@ -15,13 +18,22 @@ export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       credentials: {},
-      authorize: (credentials, req) => {
+      authorize: async (credentials, req) => {
         const { email, password } = credentials as Credentials
 
-        if (email !== 'john@gmail.com' || password !== 'john@@@')
-          throw new Error('The provided credentials are incorrect.')
+        const user = await db.user.findUnique({
+          where: {
+            email,
+          },
+        })
 
-        return { id: '1', email, password }
+        if (!user) throw new Error('The provided credentials are incorrect.')
+
+        const isPasswordCorrect = await compare(password, user.password)
+
+        if (!isPasswordCorrect) throw new Error('The provided credentials are incorrect.')
+
+        return user
       },
     }),
     GoogleProvider({
@@ -33,13 +45,24 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GITHUB_SECRET!,
     }),
   ],
-  // The below code is not needed. It is just for learning purposes.
   callbacks: {
-    jwt({ token }) {
+    jwt({ token, user }) {
+      if (user) {
+        return {
+          ...token,
+          id: user.id,
+        }
+      }
       return token
     },
-    session({ session }) {
-      return session
+    session({ session, token }) {
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+        },
+      }
     },
   },
 }
