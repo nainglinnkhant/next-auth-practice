@@ -14,6 +14,9 @@ const SignOutButton = () => {
   const handleClick = async () => {
     setIsLoading(true)
     await signOut({ redirect: false })
+    // This is a workaround to make the changes by a client component reflect in a server component
+    // before a new RFC for mutating data is released.
+    router.refresh()
     router.replace('/')
   }
 
