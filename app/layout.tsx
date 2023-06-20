@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <body className={inter.className}>
         <Providers>
-          <main className='mt-[10vh] flex h-screen w-full items-start justify-center'>
+          <main className='mt-[10vh] flex h-screen w-full flex-col items-center'>
             {children}
           </main>
 

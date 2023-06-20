@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,14 +10,23 @@ import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { useToast } from '@/components/ui/useToast'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/Form'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/Form'
 
 const formSchema = z.object({
   email: z.string().email(),
+  name: z.string().min(2).max(50),
   password: z.string().min(5),
 })
 
-const SignInForm = () => {
+const SignUpForm = () => {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -27,31 +35,14 @@ const SignInForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
+      name: '',
       password: '',
     },
   })
 
   const { toast } = useToast()
 
-  const onSubmit = async ({ email, password }: z.infer<typeof formSchema>) => {
-    setIsLoading(true)
-
-    const res = await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
-    })
-
-    if (res?.error) {
-      setIsLoading(false)
-      return toast({
-        title: 'Failed to sign in!',
-        description: res?.error,
-      })
-    }
-
-    router.push('/protected')
-  }
+  const onSubmit = async ({ email, name, password }: z.infer<typeof formSchema>) => {}
 
   return (
     <Form {...form}>
@@ -60,9 +51,24 @@ const SignInForm = () => {
           control={form.control}
           name='email'
           render={({ field }) => (
-            <FormItem className='mb-4'>
+            <FormItem className='mb-3'>
+              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type='email' placeholder='Enter your email' {...field} />
+                <Input type='email' placeholder='name@example.com' {...field} />
+              </FormControl>
+              <FormMessage className='text-xs font-normal text-red-600' />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name='name'
+          render={({ field }) => (
+            <FormItem className='mb-3'>
+              <FormLabel>Name</FormLabel>
+              <FormControl>
+                <Input type='text' placeholder='Sally' {...field} />
               </FormControl>
               <FormMessage className='text-xs font-normal text-red-600' />
             </FormItem>
@@ -73,17 +79,21 @@ const SignInForm = () => {
           control={form.control}
           name='password'
           render={({ field }) => (
-            <FormItem className='mb-6'>
+            <FormItem className='mb-8'>
+              <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type='password' placeholder='Enter your password' {...field} />
+                <Input type='password' {...field} />
               </FormControl>
+              <FormDescription className='text-xs'>
+                Password must be at least 5 characters.
+              </FormDescription>
               <FormMessage className='text-xs font-normal text-red-600' />
             </FormItem>
           )}
         />
 
         <Button disabled={isLoading} className='relative w-full'>
-          Sign in
+          Sign up
           {isLoading && (
             <Loader2 className='absolute right-3 mr-2 h-4 w-4 animate-spin' />
           )}
@@ -93,4 +103,4 @@ const SignInForm = () => {
   )
 }
 
-export default SignInForm
+export default SignUpForm
