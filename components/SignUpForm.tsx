@@ -46,7 +46,33 @@ const SignUpForm = () => {
 
   const { toast } = useToast()
 
-  const onSubmit = async ({ email, name, password }: z.infer<typeof formSchema>) => {}
+  const onSubmit = async ({ email, name, password }: z.infer<typeof formSchema>) => {
+    setIsLoading(true)
+
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, name, password }),
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) {
+      setIsLoading(false)
+      return toast({
+        title: 'Failed to sign up!',
+        description: data.message,
+      })
+    }
+
+    toast({
+      title: 'Sign-up sucess!',
+      description: 'You can now sign in using the signed up email and password.',
+    })
+    router.replace('/')
+  }
 
   const {
     formState: { errors },
