@@ -8,23 +8,21 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 
+import { userSignInSchema } from '@/lib/validations/signIn'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { useToast } from '@/components/ui/useToast'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/Form'
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(5, 'Password must contain at least 5 characters'),
-})
+type FormData = z.infer<typeof userSignInSchema>
 
 const SignInForm = () => {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<FormData>({
+    resolver: zodResolver(userSignInSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -33,7 +31,7 @@ const SignInForm = () => {
 
   const { toast } = useToast()
 
-  const onSubmit = async ({ email, password }: z.infer<typeof formSchema>) => {
+  const onSubmit = async ({ email, password }: FormData) => {
     setIsLoading(true)
 
     const res = await signIn('credentials', {

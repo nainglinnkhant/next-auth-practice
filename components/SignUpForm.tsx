@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
+import { userSignUpSchema } from '@/lib/validations/signUp'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { useToast } from '@/components/ui/useToast'
@@ -21,22 +22,15 @@ import {
   FormMessage,
 } from '@/components/ui/Form'
 
-const formSchema = z.object({
-  email: z.string().email(),
-  name: z
-    .string()
-    .min(2, 'Name must contain at least 2 characters')
-    .max(20, 'Name must not contain more than 50 characters'),
-  password: z.string().min(5),
-})
+type FormData = z.infer<typeof userSignUpSchema>
 
 const SignUpForm = () => {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<FormData>({
+    resolver: zodResolver(userSignUpSchema),
     defaultValues: {
       email: '',
       name: '',
@@ -46,7 +40,7 @@ const SignUpForm = () => {
 
   const { toast } = useToast()
 
-  const onSubmit = async ({ email, name, password }: z.infer<typeof formSchema>) => {
+  const onSubmit = async ({ email, name, password }: FormData) => {
     setIsLoading(true)
 
     const res = await fetch('/api/auth/signup', {
