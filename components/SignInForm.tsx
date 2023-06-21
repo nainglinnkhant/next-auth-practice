@@ -15,7 +15,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(5),
+  password: z.string().min(5, 'Password must contain at least 5 characters'),
 })
 
 const SignInForm = () => {
