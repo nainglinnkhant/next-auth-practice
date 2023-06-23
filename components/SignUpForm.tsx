@@ -110,7 +110,7 @@ const SignUpForm = () => {
             <FormItem className='mb-8'>
               <FormLabel className='text-foreground'>Password</FormLabel>
               <FormControl>
-                <Input type='password' {...field} />
+                <Input type='password' placeholder='******' {...field} />
               </FormControl>
               <FormDescription
                 className={cn('text-xs', errors.password && 'text-destructive')}
