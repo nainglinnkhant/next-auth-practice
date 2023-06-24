@@ -115,7 +115,7 @@ const SignUpForm = () => {
               <FormDescription
                 className={cn('text-xs', errors.password && 'text-destructive')}
               >
-                Password must contain at least 5 characters
+                Password must contain at least 6 characters
               </FormDescription>
             </FormItem>
           )}
