@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 
 import { Toaster } from '@/components/ui/Toaster'
+import ThemeMenu from '@/components/ThemeMenu'
 import Providers from './providers'
 import './globals.css'
 
@@ -16,8 +17,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <body className={inter.className}>
         <Providers>
-          <main className='mt-[10vh] flex h-screen w-full flex-col items-center'>
+          <main className='flex h-screen w-full flex-col items-center pt-[15vh]'>
             {children}
+
+            <ThemeMenu />
           </main>
 
           <Toaster />
