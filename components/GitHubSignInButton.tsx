@@ -25,7 +25,7 @@ const GitHubSignInButton = () => {
       {isLoading ? (
         <Loader2 className='mr-2 h-4 w-4 animate-spin' />
       ) : (
-        <GitHubIcon className='mr-2 h-4 w-4' />
+        <GitHubIcon className='mr-2 h-4 w-4 dark:text-white' />
       )}
       Sign in with GitHub
     </Button>
