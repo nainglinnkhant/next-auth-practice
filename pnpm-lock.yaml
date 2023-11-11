@@ -30,8 +30,8 @@ dependencies:
     specifier: ^1.1.5
     version: 1.1.5(@types/react-dom@18.2.14)(@types/react@18.2.33)(react-dom@18.2.0)(react@18.2.0)
   '@types/bcrypt':
-    specifier: ^5.0.1
-    version: 5.0.1
+    specifier: ^5.0.2
+    version: 5.0.2
   '@types/node':
     specifier: 20.8.9
     version: 20.8.9
@@ -1007,8 +1007,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@types/bcrypt@5.0.1:
-    resolution: {integrity: sha512-dIIrEsLV1/v0AUNI8oHMaRRTSeVjoy5ID8oclJavtPj8CwPJoD1eFoNXEypuu6k091brEzBeOo3LlxeAH9zRZg==}
+  /@types/bcrypt@5.0.2:
+    resolution: {integrity: sha512-6atioO8Y75fNcbmj0G7UjI9lXN2pQ/IGJ2FWT4a/btd0Lk9lQalHLKhkgKVZ3r+spnmWUKfbMi1GEe9wyHQfNQ==}
     dependencies:
       '@types/node': 20.8.9
     dev: false
