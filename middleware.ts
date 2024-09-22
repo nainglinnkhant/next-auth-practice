@@ -6,7 +6,7 @@ export default withAuth(
   async function middleware(req) {
     const token = await getToken({ req })
     const isAuth = !!token
-    const isAuthPage = req.nextUrl.pathname === '/'
+    const isAuthPage = req.nextUrl.pathname === '/' || req.nextUrl.pathname === '/signup'
 
     if (isAuthPage) {
       if (isAuth) {
@@ -33,5 +33,5 @@ export default withAuth(
 )
 
 export const config = {
-  matcher: ['/', '/protected'],
+  matcher: ['/', '/signup', '/protected'],
 }
